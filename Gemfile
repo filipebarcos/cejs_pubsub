@@ -1,3 +1,4 @@
-sources 'https://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rack'
+gem 'sass'

@@ -1,3 +1,6 @@
+require 'sass/plugin/rack'
+use Sass::Plugin::Rack
+
 use Rack::Static,
   urls: ['/javascripts', '/stylesheets'],
   root: 'public'
