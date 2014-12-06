@@ -5,13 +5,23 @@ use Rack::Static,
   urls: ['/javascripts', '/stylesheets'],
   root: 'public'
 
-run lambda { |env|
-  [
-    200,
-    {
-      'Content-Type'  => 'text/html',
-      'Cache-Control' => 'public, max-age=86400'
-    },
-    File.open('index.html', File::RDONLY)
-  ]
-}
+
+{
+  '/' => 'index',
+  '/common' => 'common',
+  '/pubsub' => 'pubsub',
+}.each do |path, page_name|
+  map path do
+    run lambda { |env|
+      [
+        200,
+        {
+          'Content-Type'  => 'text/html',
+          'Cache-Control' => 'public, max-age=86400'
+        },
+        File.open("public/#{page_name}.html", File::RDONLY)
+      ]
+    }
+  end
+end
+
