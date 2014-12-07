@@ -6,23 +6,53 @@
 
   <body>
     <div class='content'>
-      <p class='option'>Add Item</>
+      <div class='row'>
+        <select class='form-item product'>
+          <option value="">Produto</option>
+          <option value="1">Bacon</option>
+          <option value="2">Ovo</option>
+          <option value="3">P&atilde;o</option>
+          <option value="4">Caf&eacute;</option>
+          <option value="5">Queijo</option>
+        </select>
 
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Description</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-        <tfoot>
-          <tr>
-            <td colspan=2>Total</td>
-            <td class='total'>0.00</td>
-          </tr>
-        </tfoot>
+        <select class='form-item quantity'>
+          <option value="">Quantidade</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <button class='form-item button add'>Adicionar</button>
+      </div>
+
+      <div class='row'>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Descri&ccedil;&atilde;o</th>
+              <th>Quantidade</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Bacon</td>
+              <td>10</td>
+              <td>$ 10.00</td>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan=3 class='align-right'>Total</td>
+              <td class='total'>0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
 
     <script type='text/javascript' src='javascripts/common_example.js'></script>
