@@ -6,14 +6,14 @@
 
   <body>
     <div class='content'>
-      <div class='row'>
+      <div class='row fields'>
         <select class='form-item product'>
           <option value="">Produto</option>
-          <option value="1">Bacon</option>
-          <option value="2">Ovo</option>
-          <option value="3">P&atilde;o</option>
-          <option value="4">Caf&eacute;</option>
-          <option value="5">Queijo</option>
+          <option value="1" data-cost='1.0'>Bacon</option>
+          <option value="2" data-cost='1.0'>Ovo</option>
+          <option value="3" data-cost='0.5'>P&atilde;o</option>
+          <option value="4" data-cost='2.0'>Caf&eacute;</option>
+          <option value="5" data-cost='0.5'>Queijo</option>
         </select>
 
         <select class='form-item quantity'>
@@ -38,23 +38,18 @@
               <th>Valor</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Bacon</td>
-              <td>10</td>
-              <td>$ 10.00</td>
-          </tbody>
+          <tbody></tbody>
           <tfoot>
             <tr>
               <td colspan=3 class='align-right'>Total</td>
-              <td class='total'>0.00</td>
+              <td class='align-right total'>0.00</td>
             </tr>
           </tfoot>
         </table>
       </div>
     </div>
 
+    <script type='text/javascript' src='javascripts/jquery-2.1.1.min.js'></script>
     <script type='text/javascript' src='javascripts/common_example.js'></script>
   </body>
 </html>
