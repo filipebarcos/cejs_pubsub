@@ -1,15 +1,19 @@
-(function($) {
+if (typeof CEJS === 'undefined') { CEJS = {} };
+if (typeof CEJS.Common === 'undefined') { CEJS.Common = {} };
 
-  var $fields   = $('div.fields'),
-      $quantity = $fields.find('select.quantity'),
-      $product  = $fields.find('select.product'),
-      $button   = $fields.find('button.add'),
-      $tBody    = $('table.table tbody');
+CEJS.Common.Table = function() {
+  var tBody, tFoot;
+
+  var findProductRow = function(product) {
+    return $.grep(tBody.find('tr'), function(row, index) {
+      return product.id === row.getAttribute('data-product-id');
+    })[0];
+  };
 
   var addProductToTable = function(product) {
     var foundRow = findProductRow(product);
     if (typeof foundRow === 'undefined') {
-      $tBody.append(buildNewRow(product));
+      tBody.append(buildNewRow(product));
     } else {
       updateRow(foundRow, product);
     }
@@ -17,14 +21,14 @@
 
   var updateRow = function(row, product) {
     var cells = $(row).find('td'),
-        quantityCell = $(cells[2]),
-        costCell = $(cells[3]);
+        $quantityCell = $(cells[2]),
+        $costCell = $(cells[4]);
 
-    var currentQuantity = quantityCell.text(),
+    var currentQuantity = $quantityCell.text(),
         newQuantity = parseInt(currentQuantity) + product.quantity;
 
-    quantityCell.text(newQuantity);
-    costCell.text(formatCost(calculateCost(newQuantity, product.cost)));
+    $quantityCell.text(newQuantity);
+    $costCell.text(formatCost(calculateCost(newQuantity, product.cost)));
   };
 
   var buildNewRow = function(product) {
@@ -32,7 +36,8 @@
            + '<td>' + product.id + '</td>'
            + '<td>' + product.description + '</td>'
            + '<td>' + product.quantity + '</td>'
-           + '<td class="align-right">' + formatCost(product.cost) + '</td></tr>';
+           + '<td class="align-right">' + formatCost(product.cost) + '</td>'
+           + '<td class="cost align-right">' + formatCost(calculateCost(product.quantity, product.cost)) + '</td></tr>';
   };
 
   var calculateCost = function(quantity, cost) {
@@ -43,26 +48,66 @@
     return '$' + cost.toFixed(2);
   };
 
-  var findProductRow = function(product) {
-    return $.grep($tBody.find('tr'), function(row, index) {
-      return product.id === row.getAttribute('data-product-id');
-    })[0];
+  var unformatCost = function(formattedCost) {
+    return parseFloat(formattedCost.replace(/\$/, ''));
   };
 
+  var updateTotal = function(cost) {
+    var total = 0;
+    $.each(tBody.find('td.cost'), function(index, cost) {
+      total += parseFloat(cost.innerText.replace(/\$/, ''));
+    });
+    tFoot.find('td:last').text(formatCost(total));
+  };
 
-  $button.click(function() {
-    var selectedQuantity   = $quantity.find('option:selected').val(),
-        selectedProduct    = $product.find('option:selected'),
-        productId          = selectedProduct.val();
+  return {
+    init: function () {
+      var table = $('table.table');
+      tBody = table.find('tbody');
+      tFoot = table.find('tfoot');
+    },
 
-    if (selectedQuantity !== '' && productId !== '') {
-      addProductToTable({
-        id: productId,
-        description: selectedProduct.text(),
-        quantity: parseInt(selectedQuantity),
-        cost: calculateCost(selectedQuantity, selectedProduct.data('cost')),
-      });
-    }
-  });
+    addProduct: function(product) {
+      addProductToTable(product);
+      updateTotal();
+    },
+  };
+};
 
-})(jQuery);
+CEJS.Common.Form = function() {
+  var fields, quantity, product, button, table;
+
+  var addClickEventToButton = function() {
+    button.click(function() {
+      var selectedQuantity   = quantity.find('option:selected').val(),
+          selectedProduct    = product.find('option:selected'),
+          productId          = selectedProduct.val();
+
+      if (selectedQuantity !== '' && productId !== '') {
+        table.addProduct({
+          id: productId,
+          description: selectedProduct.text(),
+          quantity: parseInt(selectedQuantity),
+          cost: parseFloat(selectedProduct.data('cost')),
+        });
+      }
+    });
+  };
+
+  return {
+    init: function (tbl) {
+      fields   = $('div.fields'),
+      quantity = fields.find('select.quantity'),
+      product  = fields.find('select.product'),
+      button   = fields.find('button.add'),
+      table    = tbl;
+      addClickEventToButton();
+    },
+  };
+};
+
+(function() {
+  var table = new CEJS.Common.Table();
+  table.init();
+  new CEJS.Common.Form().init(table);
+})();

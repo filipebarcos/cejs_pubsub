@@ -6,7 +6,50 @@
 
   <body>
     <div class='content'>
+      <div class='row fields'>
+        <select class='form-item product'>
+          <option value="">Produto</option>
+          <option value="1" data-cost='1.0'>Bacon</option>
+          <option value="2" data-cost='1.0'>Ovo</option>
+          <option value="3" data-cost='0.5'>P&atilde;o</option>
+          <option value="4" data-cost='2.0'>Caf&eacute;</option>
+          <option value="5" data-cost='0.5'>Queijo</option>
+        </select>
+
+        <select class='form-item quantity'>
+          <option value="">Quantidade</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <button class='form-item button add'>Adicionar</button>
+      </div>
+
+      <div class='row'>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Descri&ccedil;&atilde;o</th>
+              <th>Quantidade</th>
+              <th>Valor Unit.</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr>
+              <td colspan=4 class='align-right'>Total</td>
+              <td class='align-right total'>0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
+    <script type='text/javascript' src='javascripts/jquery-2.1.1.min.js'></script>
     <script type='text/javascript' src='javascripts/pubsub.min.js'></script>
     <script type='text/javascript' src='javascripts/pubsub_example.js'></script>
   </body>
